@@ -1,0 +1,42 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../layouts/Layout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import data from '../data/BurmeseAgriculture.json';
+import Pagination from '../components/Pagination.astro';
+
+interface Article {
+  id: string;
+  title: string;
+  date: string;
+  author: string;
+}
+
+export const getStaticPaths = (({ paginate }) => {
+  return paginate(data as Article[], { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout>
+  <Pagination
+    length={page.lastPage}
+    currentPage={page.currentPage}
+    lastPage={page.lastPage}
+    prevUrl={page.url.prev}
+    nextUrl={page.url.next}
+  />
+  <div class='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+    {
+      page.data.map((article) => (
+        <ArticleCard
+          id={article.id}
+          title={article.title}
+          author={article.author}
+          date={article.date}
+        />
+      ))
+    }
+  </div>
+</Layout>

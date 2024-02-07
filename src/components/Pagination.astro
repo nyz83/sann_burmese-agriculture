@@ -1,0 +1,55 @@
+---
+const { length, currentPage, lastPage, prevUrl, nextUrl } = Astro.props;
+const paginationList = Array.from({ length: length }, (_, i) => i + 1);
+---
+
+<div class='flex flex-wrap gap-1 justify-center'>
+  <a
+    href={prevUrl}
+    class={currentPage === 1
+      ? 'flex items-center justify-center bg-green-700 opacity-50 md:px-3 px-1 md:py-3 py-1 text-gray-400 rounded-lg pointer-events-none'
+      : 'flex items-center justify-center bg-green-700 md:px-3 px-1 md:py-3 py-1 hover:bg-green-600 text-white rounded-lg'}>
+    <svg
+      width='20px'
+      height='20px'
+      viewBox='0 0 24 24'
+      fill='none'
+      transform='rotate(180)'>
+      <path
+        d='M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19'
+        stroke='#ffffff'
+        stroke-width='1.5'
+      ></path>
+    </svg>
+  </a>
+  {
+    paginationList.map((num) => (
+      <a
+        href={num === 1 ? `/` : `/${num}`}
+        class={
+          num === currentPage
+            ? 'md:text-lg sm:text-base text-sm flex items-center justify-center sm:px-4 px-3 md:py-2 py-1 rounded-md bg-green-700 text-white font-semibold'
+            : 'md:text-lg sm:text-base text-sm flex items-center justify-center sm:px-4 px-3 md:py-2 py-1 rounded-md bg-gray-300 font-semibold'
+        }>
+        {num}
+      </a>
+    ))
+  }
+  <a
+    href={nextUrl}
+    class={currentPage === lastPage
+      ? 'flex items-center justify-center bg-green-700 opacity-50 md:px-3 px-1 md:py-3 py-1  text-gray-400 rounded-lg pointer-events-none'
+      : 'flex items-center justify-center bg-green-700 md:px-3 px-1 md:py-3 py-1  hover:bg-green-600 text-white rounded-lg'}>
+    <svg
+      width='20px'
+      height='20px'
+      viewBox='0 0 24 24'
+      fill='none'>
+      <path
+        d='M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19'
+        stroke='#fff'
+        stroke-width='1.5'
+      ></path>
+    </svg>
+  </a>
+</div>

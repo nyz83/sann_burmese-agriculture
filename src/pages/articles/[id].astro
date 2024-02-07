@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/BurmeseAgriculture.json';
+
+export const getStaticPaths = () => {
+  return data.map((entry) => ({
+    params: {
+      id: entry.id,
+    },
+    props: { entry },
+  }));
+};
+
+function formatDate(date: Date | string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  return new Date(date).toLocaleDateString('my-MM', options);
+}
+
+const { entry } = Astro.props;
+---
+
+<Layout title={entry.title}>
+  <article
+    class='md:px-24 lg:px-36 prose prose-stone prose-a:no-underline mx-auto md:max-w-none'>
+    <a
+      href='/'
+      class='py-2 px-3 inline-block mt-6 rounded-lg border-green-700 border-2 mb-6 hover:bg-green-700 hover:text-white'>
+      ပြန်သွားမည်
+    </a>
+    <h1 class='text-4xl font-bold mb-4'>{entry.title}</h1>
+    <Image
+      src={`/images/${entry.id}.jpg`}
+      alt='Article Image'
+      height={330}
+      width={330}
+      class='object-cover my-6'
+      transition:name={`image-${entry.id}`}
+    />
+    <h3 class='mb-6 text-bold text-green-700'>
+      <span class='font-extrabold'>
+        {entry.author}
+      </span>
+      မှ
+      <span class='font-extrabold'>
+        {formatDate(entry.date)}
+      </span>
+      တွင်ရေးသားခဲ့သည်။
+    </h3>
+    <p>{entry.content}</p>
+  </article>
+</Layout>

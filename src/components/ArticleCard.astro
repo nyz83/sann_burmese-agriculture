@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  id: string;
+  title: string;
+  date: string;
+  author: string;
+}
+
+const { id, title, date, author } = Astro.props;
+
+function formatDate(date: Date | string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  return new Date(date).toLocaleDateString('my-MM', options);
+}
+---
+
+<article
+  class='max-w-md w-full mx-auto mt-10 prose prose-slate prose-a:no-underline prose-img:m-0 prose-h2:m-0 prose-p:m-0'>
+  <div class='bg-white rounded-lg overflow-hidden shadow-2xl'>
+    <a href={'/articles/' + id}>
+      <Image
+        src={`/images/${id}.jpg`}
+        alt='Article Image'
+        height={192}
+        width={192}
+        class='w-full h-48 object-cover hover:opacity-75 transition duration-300 ease-in-out'
+        transition:name={`image-${id}`}
+      />
+    </a>
+    <div class='px-6 pt-4 pb-2'>
+      <div class='grid grid-rows-[120px_30px_30px]'>
+        <h2 class='font-semibold mb-2'>
+          <a href={'/articles/' + id}>{title}</a>
+        </h2>
+        <div>
+          <p class='font-extrabold mb-4 text-gray-600'>
+            {author}
+          </p>
+          <p class='font-extrabold mb-4 text-gray-600'>
+            {formatDate(date)}
+          </p>
+        </div>
+      </div>
+      <a
+        href={'articles/' + id}
+        class='py-2 px-3 inline-block mt-6 rounded-lg border-green-700 border-2 mb-6 hover:bg-green-700 hover:text-white'>
+        ဆက်ဖတ်ရန်
+      </a>
+    </div>
+  </div>
+</article>
